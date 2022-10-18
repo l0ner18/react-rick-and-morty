@@ -1,95 +1,33 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.css';
+import './App.scss';
 import { Header } from './Components/Header/Header';
 import { HomePage } from './Components/Pages/HomePage/HomePage';
 import { AboutPage } from './Components/Pages/AboutPage/AboutPage';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
 
 function App() {
-  const data = [
-    {
-      "id": 1,
-      "name": "Rick Sanchez",
-      "status": "Alive",
-      "species": "Human",
-      "type": "",
-      "gender": "Male",
-      "origin": {
-        "name": "Earth",
-        "url": "https://rickandmortyapi.com/api/location/1"
-      },
-      "location": {
-        "name": "Earth",
-        "url": "https://rickandmortyapi.com/api/location/20"
-      },
-      "image": "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-      "episode": [
-        "https://rickandmortyapi.com/api/episode/1",
-        "https://rickandmortyapi.com/api/episode/2",
-        // ...
-      ],
-      "url": "https://rickandmortyapi.com/api/character/1",
-      "created": "2017-11-04T18:48:46.250Z"
-    },
-    {
-      "id": 1,
-      "name": "Rick Sanchez",
-      "status": "Alive",
-      "species": "Human",
-      "type": "",
-      "gender": "Male",
-      "origin": {
-        "name": "Earth",
-        "url": "https://rickandmortyapi.com/api/location/1"
-      },
-      "location": {
-        "name": "Earth",
-        "url": "https://rickandmortyapi.com/api/location/20"
-      },
-      "image": "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-      "episode": [
-        "https://rickandmortyapi.com/api/episode/1",
-        "https://rickandmortyapi.com/api/episode/2",
-        // ...
-      ],
-      "url": "https://rickandmortyapi.com/api/character/1",
-      "created": "2017-11-04T18:48:46.250Z"
-    },
-    {
-      "id": 1,
-      "name": "Rick Sanchez",
-      "status": "Alive",
-      "species": "Human",
-      "type": "",
-      "gender": "Male",
-      "origin": {
-        "name": "Earth",
-        "url": "https://rickandmortyapi.com/api/location/1"
-      },
-      "location": {
-        "name": "Earth",
-        "url": "https://rickandmortyapi.com/api/location/20"
-      },
-      "image": "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-      "episode": [
-        "https://rickandmortyapi.com/api/episode/1",
-        "https://rickandmortyapi.com/api/episode/2",
-        // ...
-      ],
-      "url": "https://rickandmortyapi.com/api/character/1",
-      "created": "2017-11-04T18:48:46.250Z"
-    },
-    
-  ]
+  const [data, setData] = useState([])
+  const [page, setPage] = useState(1)
+
+  useEffect(() => {
+    axios.get(`https://rickandmortyapi.com/api/character/?page=${page}`)
+    .then(res => setData(res.data.results))
+    .catch(err => console.log(err))
+  }, [page])
 
   return (
     <BrowserRouter>
       <div className="App">
         <Header phone={'89270000000'} />
         <div className='container'>
-          <Routes>
-            <Route path='/' element={<HomePage data={data}/>} />
-            <Route path='/about' element={<AboutPage/>} />
-          </Routes>
+          <div className='content'>
+            <Routes>
+              <Route path='/' element={<HomePage data={data} page={page} pressHandler={setPage}/>} />
+              <Route path='/about' element={<AboutPage/>} />
+            </Routes>
+          </div>
         </div>
       </div>
     </BrowserRouter>

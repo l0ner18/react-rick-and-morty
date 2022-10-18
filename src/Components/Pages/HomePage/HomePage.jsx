@@ -1,12 +1,17 @@
 import React from 'react'
 import { Card } from '../../Card/Card'
+import { Loader } from '../../UI/loader';
+import { Paginator } from '../../UI/paginator';
 
-export const HomePage = ({data}) => {
+export const HomePage = ({data, pressHandler, page}) => {
   return (
-    <div className='wrapper'>
-        {data.map(el => (
-            <Card data={el} key={el.id} />
-        ))}
-    </div>
+    <> 
+    {data ? <div className='wrapper'>
+          {data.map(el => (
+              <Card data={el} key={el.id} />
+          ))}
+          <Paginator pages={6} pressHandler={pressHandler} page={page}/>
+      </div> : <Loader/>}
+    </>
   )
 }
