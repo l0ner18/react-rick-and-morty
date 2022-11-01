@@ -1,35 +1,29 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.scss';
+import {Provider} from 'react-redux'
 import { Header } from './Components/Header/Header';
-import { HomePage } from './Components/Pages/HomePage/HomePage';
+import { HomePageContainer } from './Components/Pages/HomePage/HomePage';
 import { AboutPage } from './Components/Pages/AboutPage/AboutPage';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { store } from './redux/store';
 
 
 function App() {
-  const [data, setData] = useState([])
-  const [page, setPage] = useState(1)
-
-  useEffect(() => {
-    axios.get(`https://rickandmortyapi.com/api/character/?page=${page}`)
-    .then(res => setData(res.data.results))
-    .catch(err => console.log(err))
-  }, [page])
-
+  
   return (
     <BrowserRouter>
+      <Provider store={store}>
       <div className="App">
         <Header phone={'89270000000'} />
         <div className='container'>
           <div className='content'>
             <Routes>
-              <Route path='/' element={<HomePage data={data} page={page} pressHandler={setPage}/>} />
+              <Route path='/' element={<HomePageContainer/>} />
               <Route path='/about' element={<AboutPage/>} />
             </Routes>
           </div>
         </div>
       </div>
+      </Provider>
     </BrowserRouter>
   );
 }

@@ -77,4 +77,15 @@ body{
       background: #fff;
     }
   }
+  span{
+    color: #fff;
+    font-size: 20px;
+  }
+  &__prev-btn{
+    width: 20px;
+  }
+  &__next-btn{
+    width: 20px;
+    transform: rotate(180deg);
+  }
 }

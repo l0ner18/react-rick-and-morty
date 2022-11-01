@@ -1,17 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Card } from '../../Card/Card'
 import { Loader } from '../../UI/loader';
 import { Paginator } from '../../UI/paginator';
+import { connect } from 'react-redux'
+import { changePage, requestData } from '../../../redux/main-reducer';
 
-export const HomePage = ({data, pressHandler, page}) => {
+const HomePage = ({data, currentPage, info, requestData, changePage}) => {
+  const {pages, prev, next} = info
+
+  useEffect(() => {
+    requestData(currentPage)
+  }, [currentPage])
+
   return (
     <> 
     {data ? <div className='wrapper'>
           {data.map(el => (
               <Card data={el} key={el.id} />
           ))}
-          <Paginator pages={6} pressHandler={pressHandler} page={page}/>
+          <Paginator pages={pages} pressHandler={changePage} page={currentPage} next={next} prev={prev}/>
       </div> : <Loader/>}
     </>
   )
 }
+
+const mapStateToProps = (state) => ({
+  data: state.main.data,
+  info: state.main.info,
+  currentPage: state.main.currentPage
+})
+
+export const HomePageContainer = connect(mapStateToProps, {requestData, changePage})(HomePage)
