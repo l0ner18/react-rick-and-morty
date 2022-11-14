@@ -13,14 +13,16 @@ const HomePage = ({data, currentPage, info, requestData, changePage}) => {
   }, [currentPage])
 
   return (
-    <> 
-    {data ? <div className='wrapper'>
-          {data.map(el => (
-              <Card data={el} key={el.id} />
-          ))}
-          <Paginator pages={pages} pressHandler={changePage} page={currentPage} next={next} prev={prev}/>
-      </div> : <Loader/>}
-    </>
+    <div className='container'>
+      <div className='content'>
+        {data ? <div className='wrapper'>
+              {data.map(el => (
+                  <Card data={el} key={el.id} />
+              ))}
+              <Paginator pages={pages} pressHandler={changePage} page={currentPage} next={next} prev={prev}/>
+          </div> : <Loader/>}
+      </div> 
+    </div> 
   )
 }
 
