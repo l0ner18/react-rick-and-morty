@@ -8,5 +8,11 @@ const instance = axios.create({
 export const mainAPI = {
     getData(page) {
         return instance.get(`/character/?page=${page}`)
+    },
+    getCharacter(id){
+        return instance.get(`/character/${id}`)
+    },
+    getEpisodes(id){
+        return instance.get(`/episode/${id}`)
     }
 }

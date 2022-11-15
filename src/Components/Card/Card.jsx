@@ -1,9 +1,10 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import s from './Card.module.scss'
 
 export const Card = ({data}) => {
     return(
-        <div className={s.wrapper}>
+        <NavLink to={`/character/${data.id}`} className={s.wrapper}>
             <div className={s.imgWrap}>
                 <img src={data.image} alt="" />
             </div>
@@ -23,6 +24,6 @@ export const Card = ({data}) => {
                     <p>Mortynight Run</p>
                 </p>
             </div>
-        </div>
+        </NavLink>
     )
 }
