@@ -14,5 +14,8 @@ export const mainAPI = {
     },
     getEpisodes(id){
         return instance.get(`/episode/${id}`)
-    }
+    },
+    getEpisodeByCode(code){
+        return instance.get(`/episode/?episode=${code}`)
+    },
 }

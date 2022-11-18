@@ -56,24 +56,34 @@ export const requestData = (page) => async (dispatch) => {
 }
 
 export const requestCharacter = (id) => async (dispatch) => {
-    let allEpisodes = []
-
     dispatch(toggleIsFetching(true))
     const response = await mainAPI.getCharacter(id)
     if(response.status === 200){
         dispatch(setCharacter(response.data))
+
+        let allEpisodes = []
+
         response.data.episode.forEach(el => {
             const id = el.split('/').pop()
             allEpisodes.push(id)
         })
+
         const responseEpisodes = await mainAPI.getEpisodes(allEpisodes)
         if(responseEpisodes.status === 200){
-            dispatch(setEpisodes(responseEpisodes.data))
+            let dataArr = [].concat(responseEpisodes.data)
+
+            dataArr = await Promise.all(dataArr.map(async (ep) => {
+                let queryString = ep.characters[ep.characters.length - 1].split('/').pop() + ',' + ep.characters[ep.characters.length - 2].split('/').pop()
+                let result = await mainAPI.getCharacter(queryString)
+                return {...ep, charactersImages: [
+                    result.data[0].image, 
+                    result.data[1].image
+                ]}
+            }))
+            dispatch(setEpisodes(dataArr))
             dispatch(toggleIsFetching(false))
-        }else{
-            console.log(responseEpisodes);
-            dispatch(toggleIsFetching(false))
-        }
+        }else console.log(responseEpisodes)
+        dispatch(toggleIsFetching(false))
     }else{
         console.log(response);
         dispatch(toggleIsFetching(false))

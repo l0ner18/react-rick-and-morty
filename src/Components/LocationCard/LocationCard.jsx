@@ -13,8 +13,8 @@ export const LocationCard = ({episode}) => {
                 <p className={s.mute}>{episode.episode}</p>
             </div>
             <div className={s.avatars}>
-                <div className={s.avatar}><img src="./img/avatar.png" alt="" /></div>
-                <div className={s.avatar}><img src="./img/avatar.png" alt="" /></div>
+                <div className={s.avatar}><img src={episode.charactersImages[0]} alt="" /></div>
+                <div className={s.avatar}><img src={episode.charactersImages[1]} alt="" /></div>
                 <div className={s.avatar}><span>+{episode.characters.length - 2}</span></div>
             </div>
         </div>

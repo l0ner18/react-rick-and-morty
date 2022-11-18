@@ -45,12 +45,12 @@ const CharacterPage = ({character, requestCharacter, isFetching, episodes}) => {
               </div>
             </div>
           </div>
-          <section>
+          {episodes.length && <section>
             <h1 className={s.sectionTitle}>Episodes</h1>
             <div className={s.cardRow}>
               {episodes?.map(ep => <LocationCard episode={ep} key={'episode'+ep.id}/>)}
             </div>
-          </section>
+          </section>}
         </div>
     </div>
   )
@@ -59,7 +59,7 @@ const CharacterPage = ({character, requestCharacter, isFetching, episodes}) => {
 const mapStateToProps = (state) => ({
   character: state.main.character,
   isFetching: state.main.isFetching,
-  episodes: state.main.episodes
+  episodes: state.main.episodes,
 })
 
 export const CharacterPageContainer = connect(mapStateToProps, {requestCharacter})(CharacterPage)
